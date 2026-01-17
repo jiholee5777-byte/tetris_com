@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Season Tetris</title>
+<style>
+  body {
+    margin: 0;
+    background: #111;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+  }
+  #container {
+    position: relative;
+  }
+  canvas {
+    border: 3px solid #555;
+  }
+  #score {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    color: white;
+    font-size: 20px;
+  }
+</style>
+</head>
+<body>
+
+<div id="container">
+  <div id="score">점수: 0</div>
+  <canvas id="tetris" width="240" height="400"></canvas>
+</div>
+
+<script>
+const canvas = document.getElementById('tetris');
+const ctx = canvas.getContext('2d');
+ctx.scale(20, 20);
+
+const scoreEl = document.getElementById('score');
+const arena = createMatrix(12, 20);
+
+const seasons = {
+  spring: {
+    bg: '#F0FFF0',
+    colors: [null,'#FFB6C1','#98FB98','#FF69B4','#7FFFD4','#ADFF2F','#FFA07A','#87CEFA']
+  },
+  summer: {
+    bg: '#E0FFFF',
+    colors: [null,'#00CED1','#FFD700','#32CD32','#FF8C00','#1E90FF','#FF4500','#00FA9A']
+  },
+  autumn: {
+    bg: '#FFF5EE',
+    colors: [null,'#CD853F','#FF8C00','#A0522D','#B22222','#DAA520','#D2691E','#8B4513']
+  },
+  winter: {
+    bg: '#F8F8FF',
+    colors: [null,'#ADD8E6','#E6E6FA','#AFEEEE','#B0E0E6','#F0FFFF','#DCDCDC','#FFFFFF']
+  }
+};
+
+let currentSeason = 'spring';
+let colors = seasons.spring.colors;
+
+const player = {
+  pos: {x: 0, y: 0},
+  matrix: null,
+};
+
+let score = 0;
+let shakeTime = 0;
+
+function createMatrix(w, h) {
+  return Array.from({length: h}, () => new Array(w).fill(0));
+}
+
+function createPiece(type) {
+  if (type === 'T') return [[0,1,0],[1,1,1],[0,0,0]];
+  if (type === 'O') return [[2,2],[2,2]];
+  if (type === 'L') return [[0,0,3],[3,3,3],[0,0,0]];
+  if (type === 'J') return [[4,0,0],[4,4,4],[0,0,0]];
+  if (type === 'I') return [[0,5,0,0],[0,5,0,0],[0,5,0,0],[0,5,0,0]];
+  if (type === 'S') return [[0,6]()]()
